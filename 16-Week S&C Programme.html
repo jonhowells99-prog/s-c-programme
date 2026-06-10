@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>16-Week S&C Programme</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#09090b;--s1:#111113;--s2:#1a1a1d;--border:#27272a;
+  --dim:#52525b;--txt:#e4e4e7;--live:#c8ff00;--warm:#f97316;
+  --blue:#3b82f6;--purple:#a855f7;--green:#22c55e;--red:#ef4444;
+  --teal:#14b8a6;
+}
+html{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-size:14px;}
+body{min-height:100vh;}
+button{cursor:pointer;font-family:'Inter',sans-serif;}
+input,select{font-family:'Inter',sans-serif;}
+
+/* ─ NAV ─────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 22px;height:52px;}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.08em;}
+.brand em{color:var(--live);font-style:normal;}
+.pills{display:flex;gap:3px;}
+.pill{background:none;border:1px solid var(--border);color:var(--dim);
+  padding:5px 14px;border-radius:99px;font-size:12px;font-weight:500;transition:all .14s;}
+.pill:hover{border-color:var(--txt);color:var(--txt);}
+.pill.on{background:var(--live);border-color:var(--live);color:#000;font-weight:700;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.wk-badge{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--live);
+  border:1px solid rgba(200,255,0,.25);padding:3px 9px;border-radius:3px;letter-spacing:.06em;}
+.phase-badge{font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 8px;border-radius:3px;
+  border:1px solid;letter-spacing:.06em;text-transform:uppercase;}
+
+/* ─ LAYOUT ───────────────────────────────────────── */
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px 80px;}
+.view{display:none;}.view.on{display:block;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
+.card{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:18px;}
+.ctitle{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;
+  color:var(--dim);text-transform:uppercase;margin-bottom:12px;}
+.sh{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;
+  padding-bottom:10px;margin-bottom:18px;border-bottom:1px solid var(--border);}
+.sh em{color:var(--live);font-style:normal;}
+
+/* ─ 16-WEEK TIMELINE ─────────────────────────────── */
+.timeline{display:grid;grid-template-columns:repeat(16,1fr);gap:4px;margin-bottom:24px;}
+.tl-wk{
+  position:relative;padding:10px 6px 8px;border-radius:5px;cursor:pointer;
+  border:1px solid var(--border);text-align:center;transition:all .12s;
+}
+.tl-wk:hover{border-color:var(--dim);}
+.tl-wk.cur{border-color:var(--live)!important;}
+.tl-wk.cur .tl-n{color:var(--live);}
+.tl-stripe{position:absolute;top:0;left:0;right:0;height:2px;border-radius:3px 3px 0 0;}
+.tl-n{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.04em;line-height:1;}
+.tl-label{font-size:9px;color:var(--dim);margin-top:3px;line-height:1.2;}
+.tl-done{position:absolute;top:3px;right:4px;font-size:8px;color:var(--green);}
+
+/* ─ PHASE RAIL ────────────────────────────────────── */
+.phase-rail{display:grid;grid-template-columns:repeat(3,1fr) 2fr;gap:8px;margin-bottom:20px;}
+.ph-tile{padding:16px 18px;border-radius:8px;cursor:pointer;border:1px solid var(--border);
+  position:relative;overflow:hidden;transition:all .12s;}
+.ph-tile:hover{border-color:var(--dim);}
+.ph-tile.active-ph{border-color:var(--live);}
+.ph-top{position:absolute;top:0;left:0;right:0;height:2px;}
+.ph-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--dim);
+  margin-bottom:5px;text-transform:uppercase;}
+.ph-name{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.04em;margin-bottom:3px;}
+.ph-sub{font-size:11px;color:var(--dim);line-height:1.4;}
+
+/* ─ STAT CARDS ───────────────────────────────────── */
+.stat-big{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:.02em;line-height:1;}
+.stat-big span{font-size:20px;color:var(--dim);}
+.stat-sub{font-size:11px;color:var(--dim);margin-top:5px;line-height:1.5;}
+.prog-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin:10px 0 4px;}
+.prog-fill{height:100%;border-radius:2px;background:var(--live);transition:width .5s;}
+.prog-txt{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);}
+
+/* ─ BENCHMARKS ───────────────────────────────────── */
+.bm{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);}
+.bm:last-child{border-bottom:none;}
+.bm-n{font-size:13px;font-weight:500;flex:1;}
+.bm-bar{flex:2;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.bm-fill{height:100%;border-radius:2px;}
+.bm-now{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;white-space:nowrap;}
+.bm-tgt{font-size:10px;color:var(--dim);white-space:nowrap;}
+
+/* ─ PREDICTIONS TABLE ────────────────────────────── */
+.pred-table{width:100%;border-collapse:collapse;}
+.pred-table th{text-align:left;padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:.1em;color:var(--dim);text-transform:uppercase;border-bottom:1px solid var(--border);}
+.pred-table td{padding:9px 10px;border-bottom:1px solid var(--border);font-size:13px;}
+.pred-table tr:last-child td{border-bottom:none;}
+.pred-table tr:hover td{background:var(--s2);}
+.highlight{color:var(--live);font-weight:600;font-family:'JetBrains Mono',monospace;}
+
+/* ─ TAGS ─────────────────────────────────────────── */
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
+.tag{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;
+  border-radius:2px;border:1px solid var(--border);color:var(--dim);}
+.tag.r{border-color:rgba(249,115,22,.4);color:var(--warm);}
+.tag.b{border-color:rgba(59,130,246,.35);color:var(--blue);}
+.tag.y{border-color:rgba(200,255,0,.35);color:var(--live);}
+.tag.g{border-color:rgba(34,197,94,.35);color:var(--green);}
+
+/* ─ CALLOUT ──────────────────────────────────────── */
+.callout{border-left:2px solid var(--border);padding:10px 13px;font-size:12px;
+  color:var(--dim);line-height:1.65;border-radius:0 4px 4px 0;margin-bottom:10px;}
+.callout.w{border-left-color:var(--warm);background:rgba(249,115,22,.04);}
+.callout.b{border-left-color:var(--blue);background:rgba(59,130,246,.04);}
+.callout.g{border-left-color:var(--green);background:rgba(34,197,94,.04);}
+.callout.y{border-left-color:var(--live);background:rgba(200,255,0,.04);}
+.callout strong{color:var(--txt);}
+
+/* ─ HR ZONES ─────────────────────────────────────── */
+.hz-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px;}
+.hz{background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:10px 8px;text-align:center;}
+.hz-n{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);margin-bottom:5px;}
+.hz-bpm{font-family:'Bebas Neue',sans-serif;font-size:20px;line-height:1;margin-bottom:3px;}
+.hz-desc{font-size:10px;color:var(--dim);line-height:1.3;}
+
+/* ─ WEEK TABS ────────────────────────────────────── */
+.wtabs{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:14px;}
+.wtab{font-family:'JetBrains Mono',monospace;font-size:10px;background:none;border:1px solid var(--border);
+  color:var(--dim);padding:4px 10px;border-radius:3px;letter-spacing:.04em;transition:all .12s;}
+.wtab:hover{color:var(--txt);border-color:var(--dim);}
+.wtab.on{background:var(--live);border-color:var(--live);color:#000;font-weight:700;}
+.phase-banner{padding:14px 16px;border-radius:7px;background:var(--s1);
+  border:1px solid var(--border);margin-bottom:14px;}
+.pb-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;
+  color:var(--dim);margin-bottom:3px;text-transform:uppercase;}
+.pb-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.04em;margin-bottom:4px;}
+.pb-note{font-size:12px;color:var(--dim);line-height:1.6;}
+
+/* ─ SESSION GRID ─────────────────────────────────── */
+.sess-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.sc{background:var(--s1);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .12s;}
+.sc:hover{border-color:var(--dim);}
+.sc-head{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;border-bottom:1px solid var(--border);}
+.sc-day{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.04em;}
+.sc-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;
+  padding:3px 7px;border-radius:2px;text-transform:uppercase;}
+.b-lower{background:rgba(59,130,246,.15);color:var(--blue);}
+.b-upper{background:rgba(200,255,0,.1);color:var(--live);}
+.b-full{background:rgba(168,85,247,.15);color:var(--purple);}
+.b-rest{background:rgba(82,82,91,.2);color:var(--dim);}
+.b-cond{background:rgba(34,197,94,.12);color:var(--green);}
+.b-pitch{background:rgba(20,184,166,.15);color:var(--teal);}
+.sc-meta{display:flex;gap:8px;padding:7px 14px;background:rgba(255,255,255,.02);
+  border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.sc-mi{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);}
+.sc-mi strong{color:var(--txt);}
+.sc-focus{padding:7px 14px 2px;font-size:11px;color:var(--dim);}
+.ex-list{list-style:none;padding:4px 6px 10px;}
+.ex-row{display:flex;align-items:center;gap:6px;padding:7px 6px;border-radius:4px;
+  cursor:pointer;transition:background .1s;border-bottom:1px solid rgba(255,255,255,.03);}
+.ex-row:hover{background:var(--s2);}
+.ex-row:active{background:var(--border);}
+.ex-n{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dim);width:16px;flex-shrink:0;}
+.ex-body{flex:1;min-width:0;}
+.ex-name{font-size:13px;font-weight:500;line-height:1.3;}
+.ex-detail{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);
+  margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.rec-chip{font-family:'JetBrains Mono',monospace;font-size:9px;background:rgba(200,255,0,.1);
+  border:1px solid rgba(200,255,0,.3);color:var(--live);padding:1px 6px;border-radius:2px;}
+.prio-chip{font-family:'JetBrains Mono',monospace;font-size:8px;padding:1px 5px;border-radius:2px;
+  margin-left:4px;vertical-align:middle;border:1px solid;}
+.p1-chip{background:rgba(200,255,0,.1);border-color:rgba(200,255,0,.35);color:var(--live);}
+.p2-chip{background:rgba(249,115,22,.1);border-color:rgba(249,115,22,.35);color:var(--warm);}
+.ex-tick{font-size:13px;color:var(--green);flex-shrink:0;}
+.ex-arr{font-size:13px;color:var(--dim);flex-shrink:0;}
+
+/* ─ LOG ──────────────────────────────────────────── */
+.log-card{background:var(--s1);border:1px solid var(--border);border-radius:8px;
+  padding:18px;margin-bottom:14px;}
+.log-r1{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:9px;margin-bottom:9px;align-items:end;}
+.log-r2{display:grid;grid-template-columns:150px 1fr;gap:9px;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.fl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;}
+.fi{background:var(--s2);border:1px solid var(--border);color:var(--txt);
+  padding:8px 10px;border-radius:4px;font-size:13px;outline:none;width:100%;transition:border-color .12s;}
+.fi:focus{border-color:var(--dim);}
+.fi::placeholder{color:var(--dim);}
+.btn-add{background:var(--live);border:none;color:#000;padding:9px 16px;border-radius:4px;
+  font-size:13px;font-weight:700;white-space:nowrap;transition:opacity .12s;}
+.btn-add:hover{opacity:.85;}
+.btn-del{background:none;border:1px solid rgba(239,68,68,.3);color:rgba(239,68,68,.7);
+  padding:4px 8px;border-radius:2px;font-size:11px;transition:all .12s;}
+.btn-del:hover{background:rgba(239,68,68,.1);border-color:var(--red);color:var(--red);}
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{text-align:left;padding:8px 9px;font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:.1em;color:var(--dim);text-transform:uppercase;border-bottom:1px solid var(--border);}
+.tbl td{padding:8px 9px;border-bottom:1px solid var(--border);font-size:13px;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--s2);}
+.pr-chip{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.08em;
+  background:rgba(200,255,0,.12);border:1px solid rgba(200,255,0,.3);color:var(--live);
+  padding:1px 4px;border-radius:2px;margin-left:4px;vertical-align:middle;}
+.sbox{max-height:400px;overflow-y:auto;}
+.sbox::-webkit-scrollbar{width:3px;}
+.sbox::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* ─ MODAL ────────────────────────────────────────── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;z-index:500;}
+.modal-bg.on{display:flex;}
+.modal{background:var(--s1);border:1px solid var(--border);border-radius:10px;
+  padding:24px;width:420px;max-width:95vw;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.04em;margin-bottom:2px;}
+.modal-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:12px;}
+.rec-box{background:rgba(200,255,0,.06);border:1px solid rgba(200,255,0,.22);
+  border-radius:6px;padding:10px 12px;margin-bottom:12px;display:none;}
+.rec-box.on{display:block;}
+.rec-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;
+  color:var(--live);text-transform:uppercase;margin-bottom:3px;}
+.rec-val{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.04em;color:var(--live);line-height:1;}
+.rec-why{font-size:11px;color:var(--dim);margin-top:3px;line-height:1.4;}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:9px;}
+.mcue{font-size:11px;color:var(--dim);line-height:1.5;border-left:2px solid var(--blue);
+  padding-left:9px;margin-bottom:12px;display:none;}
+.modal-acts{display:flex;gap:7px;justify-content:flex-end;margin-top:14px;}
+.btn-cancel{background:none;border:1px solid var(--border);color:var(--txt);
+  padding:8px 14px;border-radius:4px;font-size:13px;}
+.btn-cancel:hover{border-color:var(--dim);}
+
+/* ─ PROGRESS ─────────────────────────────────────── */
+.mob-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.mob-row:last-child{border-bottom:none;}
+.mob-cb{width:17px;height:17px;border:1px solid var(--border);border-radius:3px;flex-shrink:0;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+.mob-cb.on{background:var(--green);border-color:var(--green);}
+.mob-cb.on::after{content:'✓';color:#000;font-size:10px;font-weight:700;}
+.mob-nm{font-size:13px;flex:1;}
+
+.empty{text-align:center;padding:32px;color:var(--dim);font-size:13px;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand">16-Week <em>S&C</em></div>
+  <div class="pills">
+    <button class="pill on" onclick="nav('overview',this)">Overview</button>
+    <button class="pill" onclick="nav('schedule',this)">Schedule</button>
+    <button class="pill" onclick="nav('log',this)">Log</button>
+    <button class="pill" onclick="nav('progress',this)">Progress</button>
+  </div>
+  <div class="nav-right">
+    <div class="phase-badge" id="phaseBadge" style="color:var(--blue);border-color:rgba(59,130,246,.35);">PRE-SEASON</div>
+    <div class="wk-badge" id="wkBadge">WK 01</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ══ OVERVIEW ══════════════════════════════════ -->
+<div class="view on" id="view-overview">
+
+  <!-- 16-week timeline -->
+  <div class="ctitle" style="margin-bottom:8px;">16-Week Programme Timeline — Click to Navigate</div>
+  <div class="timeline" id="timeline"></div>
+
+  <!-- Stats row -->
+  <div class="g4" style="margin-bottom:18px;">
+    <div class="card">
+      <div class="ctitle">Current Week</div>
+      <div class="stat-big" id="ov-wk">1</div>
+      <div class="stat-sub" id="ov-ph">Foundation Phase</div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:6.25%"></div></div>
+      <div class="prog-txt" id="prog-txt">6.25% complete</div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Phase</div>
+      <div class="stat-big" style="font-size:28px;line-height:1.2;" id="ov-phase-name">Pre-Season I</div>
+      <div class="stat-sub" id="ov-phase-sub">4 sessions/week gym<br>0 pitch sessions</div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Mass Target</div>
+      <div class="stat-big">100 <span>kg</span></div>
+      <div class="stat-sub">Calorie surplus every day.<br>Protein target non-negotiable.</div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Bronco Target</div>
+      <div class="stat-big" style="color:var(--live)">4:45</div>
+      <div class="stat-sub">Baseline 5:05 · Test Wk 8 &amp; Wk 16</div>
+    </div>
+  </div>
+
+  <!-- Phase rail -->
+  <div class="sh"><em>Programme</em> Architecture</div>
+  <div class="phase-rail" id="phaseRail"></div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ctitle">Strength Targets — 16 Weeks</div>
+      <div class="bm"><div class="bm-n">Bench Press</div><div class="bm-bar"><div class="bm-fill" style="width:82%;background:var(--blue)"></div></div><div class="bm-now">120kg</div><div class="bm-tgt">→ 140kg</div></div>
+      <div class="bm"><div class="bm-n">Back Squat</div><div class="bm-bar"><div class="bm-fill" style="width:68%;background:var(--purple)"></div></div><div class="bm-now">170kg</div><div class="bm-tgt">→ 205kg</div></div>
+      <div class="bm"><div class="bm-n">Trap Bar Deadlift</div><div class="bm-bar"><div class="bm-fill" style="width:58%;background:var(--warm)"></div></div><div class="bm-now">~220kg</div><div class="bm-tgt">→ 268kg</div></div>
+      <div class="bm"><div class="bm-n">Pull-Ups (BW)</div><div class="bm-bar"><div class="bm-fill" style="width:62%;background:var(--green)"></div></div><div class="bm-now">16 reps</div><div class="bm-tgt">→ 23 reps</div></div>
+      <div class="bm"><div class="bm-n">Bodyweight</div><div class="bm-bar"><div class="bm-fill" style="width:72%;background:var(--teal)"></div></div><div class="bm-now">~95kg</div><div class="bm-tgt">→ 100–103kg</div></div>
+      <div class="bm"><div class="bm-n">Bronco</div><div class="bm-bar"><div class="bm-fill" style="width:35%;background:var(--live)"></div></div><div class="bm-now" style="color:var(--live)">5:05</div><div class="bm-tgt">→ sub 4:45</div></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Priority Development Areas</div>
+      <div class="tags" style="margin-bottom:12px;">
+        <span class="tag y">Traps / Neck <small>#1</small></span>
+        <span class="tag y">Lat Width <small>#2</small></span>
+        <span class="tag y">Arms — Bi &amp; Tri <small>#3</small></span>
+        <span class="tag r">Left Leg Symmetry</span>
+        <span class="tag r">APT Correction</span>
+        <span class="tag b">Posterior Chain</span>
+        <span class="tag b">Glute Hypertrophy</span>
+        <span class="tag">Medial Delts</span>
+        <span class="tag">Upper Chest</span>
+        <span class="tag">Neck Armour</span>
+      </div>
+      <div class="callout w"><strong>Photo assessment:</strong> Traps completely flat — the single biggest gap. Arms confirmed thin. Shoulder width missing. Chest sits flat. These four areas get specialisation volume above everything else.</div>
+      <div class="callout y" style="margin-bottom:0;"><strong>The one non-negotiable:</strong> Calorie surplus every single day. Intermediate lifters can realistically gain 0.5–1% of bodyweight per month in lean mass — at 95kg that's 0.5–1kg of muscle per month. Miss calories, miss gains. Full stop.</div>
+    </div>
+  </div>
+
+  <!-- Predicted targets table -->
+  <div class="sh"><em>Predicted</em> Targets</div>
+  <div class="card" style="margin-bottom:18px;">
+    <div class="ctitle">Honest projections based on Baker (rugby), Aragon/McDonald muscle gain models, your current stats. Upper end assumes consistent surplus + sleep + protein. Lower end = real world.</div>
+    <table class="pred-table">
+      <thead><tr><th>Metric</th><th>Now</th><th>Week 8 (Pre-Season End)</th><th>Week 16 (Season Start)</th><th>Key Condition</th></tr></thead>
+      <tbody>
+        <tr><td>Bodyweight</td><td>~95kg</td><td class="highlight">97–98kg</td><td class="highlight">100–103kg</td><td style="color:var(--dim);font-size:12px;">Consistent 300–400 cal surplus daily</td></tr>
+        <tr><td>Bench Press</td><td>120kg</td><td class="highlight">128–132kg</td><td class="highlight">137–142kg</td><td style="color:var(--dim);font-size:12px;">~5% per 8-wk block. Baker: #1 rugby discriminator</td></tr>
+        <tr><td>Back Squat</td><td>170kg</td><td class="highlight">180–187kg</td><td class="highlight">195–205kg</td><td style="color:var(--dim);font-size:12px;">Mobility gains unlock extra load — bigger jump possible</td></tr>
+        <tr><td>Trap Bar DL</td><td>~220kg</td><td class="highlight">237–245kg</td><td class="highlight">255–268kg</td><td style="color:var(--dim);font-size:12px;">Most headroom. Primary lower-body mass builder</td></tr>
+        <tr><td>Pull-Ups (BW)</td><td>16 reps</td><td class="highlight">18–19 reps</td><td class="highlight">21–23 reps</td><td style="color:var(--dim);font-size:12px;">+1 rep/wk realistic with lat priority volume</td></tr>
+        <tr><td>Arm girth</td><td>baseline</td><td class="highlight">+1–1.5cm</td><td class="highlight">+3–4cm</td><td style="color:var(--dim);font-size:12px;">24 sets/wk arm specialisation across 4 sessions</td></tr>
+        <tr><td>Bronco</td><td>5:05</td><td class="highlight">4:56–4:58</td><td class="highlight">sub 4:45</td><td style="color:var(--dim);font-size:12px;">Consistent Sat sessions + pitch fitness from Wk 9</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Coaching method cards -->
+  <div class="sh"><em>Coaching</em> Methodology</div>
+  <div class="g4">
+    <div class="card" style="border-top:2px solid var(--blue);">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:.1em;margin-bottom:7px;">CAL DIETZ · TRIPHASIC</div>
+      <div style="font-size:12px;color:var(--dim);line-height:1.65;"><strong style="color:var(--txt)">Primary structure.</strong> Eccentric phase (Wks 1–2) → Isometric/pause phase (Wks 3–4) → Concentric/speed phase (Wks 5–8). Each phase drives both hypertrophy AND athletic development simultaneously. No trade-off.</div>
+    </div>
+    <div class="card" style="border-top:2px solid var(--warm);">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--warm);letter-spacing:.1em;margin-bottom:7px;">DAN BAKER · RUGBY SCIENCE</div>
+      <div style="font-size:12px;color:var(--dim);line-height:1.65;"><strong style="color:var(--txt)">17 years of published rugby research.</strong> Bench press and deadlift 1RM are the top discriminators of playing standard. Power output against high external loads separates levels. Programmed as primary lifts.</div>
+    </div>
+    <div class="card" style="border-top:2px solid var(--live);">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--live);letter-spacing:.1em;margin-bottom:7px;">SIMMONS / SOVIET · CONJUGATE</div>
+      <div style="font-size:12px;color:var(--dim);line-height:1.65;"><strong style="color:var(--txt)">Speed-strength is never absent.</strong> Even in hypertrophy phases a small power primer keeps the CNS athletic. In-season (Wks 9–16): concurrent interference minimised by 24h+ separation between gym and pitch.</div>
+    </div>
+    <div class="card" style="border-top:2px solid var(--green);">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--green);letter-spacing:.1em;margin-bottom:7px;">BOYLE + ATG · UNILATERAL</div>
+      <div style="font-size:12px;color:var(--dim);line-height:1.65;"><strong style="color:var(--txt)">Sport happens in split stance.</strong> Left leg leads every unilateral. ATG: full ROM, knee-over-toe. Research: targeted unilateral training significantly reduces limb asymmetry in 10 weeks.</div>
+    </div>
+  </div>
+
+  <!-- In-season concurrent note -->
+  <div class="sh"><em>Weeks 9–16</em> Concurrent Training</div>
+  <div class="g2">
+    <div class="callout b"><strong>Why the interference effect won't kill your gains:</strong> Baker's 19-week study on professional rugby players found no reduction in strength or power during in-season concurrent training when sessions were properly sequenced. Your gym is Monday/Friday mornings, pitch is Tuesday/Thursday evenings — that's 24+ hours separation, which research confirms effectively eliminates the interference effect.</div>
+    <div class="callout g"><strong>In-season gym structure (Wks 9–16):</strong> Two full-body sessions per week (Mon + Fri). Higher intensity, lower volume than pre-season. Compounds stay at 80–85% intensity. Power work maintained. The pitch sessions replace conditioning volume — the gym now purely maintains and builds strength/mass. Studies show well-trained athletes can continue gaining on 2 sessions/week if intensity stays high.</div>
+  </div>
+
+  <!-- HR Zones -->
+  <div class="sh"><em>Heart Rate</em> Zones</div>
+  <div class="hz-row">
+    <div class="hz"><div class="hz-n">ZONE 1</div><div class="hz-bpm" style="color:var(--dim)">95–114</div><div class="hz-desc">Warm-up / Cool-down</div></div>
+    <div class="hz"><div class="hz-n">ZONE 2</div><div class="hz-bpm" style="color:var(--blue)">115–133</div><div class="hz-desc">Aerobic base. Recovery sessions.</div></div>
+    <div class="hz"><div class="hz-n">ZONE 3</div><div class="hz-bpm" style="color:var(--purple)">133–152</div><div class="hz-desc">Aerobic threshold.</div></div>
+    <div class="hz"><div class="hz-n">ZONE 4</div><div class="hz-bpm" style="color:var(--warm)">152–171</div><div class="hz-desc">Intervals. Bronco pace.</div></div>
+    <div class="hz"><div class="hz-n">ZONE 5</div><div class="hz-bpm" style="color:var(--live)">171–190</div><div class="hz-desc">Max sprint. Full Bronco.</div></div>
+  </div>
+  <div class="g2">
+    <div class="callout b"><strong>Aerobic work (Wks 1–8 Sat / Wks 9–16 pitch):</strong> Zone 2 at 115–140 bpm. Conversational pace. Builds the aerobic engine for 80-minute matches without competing with gym recovery.</div>
+    <div class="callout w"><strong>Bronco &amp; conditioning:</strong> Zone 4–5 during efforts. Rest until ~130 bpm before next rep. Never run Bronco within 48h of Lower B. Saturday only in pre-season. Tests at Week 8 and Week 16.</div>
+  </div>
+
+</div><!-- /overview -->
+
+<!-- ══ SCHEDULE ════════════════════════════════════ -->
+<div class="view" id="view-schedule">
+  <div class="wtabs" id="wkTabs"></div>
+  <div id="phaseBannerArea"></div>
+  <div class="sess-grid" id="sessGrid"></div>
+</div>
+
+<!-- ══ LOG ════════════════════════════════════════ -->
+<div class="view" id="view-log">
+  <div class="sh"><em>Session</em> Log</div>
+  <div class="log-card">
+    <div class="ctitle" style="margin-bottom:12px;">Log a Set</div>
+    <div class="log-r1">
+      <div class="fg"><label class="fl">Exercise</label><select class="fi" id="lEx"></select></div>
+      <div class="fg"><label class="fl">Weight (kg)</label><input class="fi" type="number" id="lWt" placeholder="e.g. 80" min="0" inputmode="decimal"></div>
+      <div class="fg"><label class="fl">Reps</label><input class="fi" type="number" id="lReps" placeholder="e.g. 8" min="1" inputmode="numeric"></div>
+      <button class="btn-add" onclick="doLog()">+ Log</button>
+    </div>
+    <div class="log-r2">
+      <div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="lDate"></div>
+      <div class="fg"><label class="fl">Notes</label><input class="fi" type="text" id="lNotes" placeholder="Feel, load, fatigue…"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctitle" style="margin-bottom:10px;">Recent Sets</div>
+    <div class="sbox"><table class="tbl"><thead><tr><th>Date</th><th>Exercise</th><th>Weight</th><th>Reps</th><th>Est. 1RM</th><th>Next Target</th><th>Notes</th><th></th></tr></thead><tbody id="logBody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ══ PROGRESS ════════════════════════════════════ -->
+<div class="view" id="view-progress">
+  <div class="sh"><em>Progress</em> Tracker</div>
+  <div class="g2" style="margin-bottom:18px;">
+    <div class="card">
+      <div class="ctitle">Bodyweight Log</div>
+      <div style="display:flex;gap:9px;align-items:flex-end;margin-bottom:12px;">
+        <div class="fg" style="flex:1;"><label class="fl">Weight (kg)</label><input class="fi" type="number" id="bwIn" placeholder="e.g. 97.5" step="0.1" inputmode="decimal"></div>
+        <button class="btn-add" style="height:36px;padding:0 14px;" onclick="saveBW()">Save</button>
+      </div>
+      <div id="bwHist"></div>
+    </div>
+    <div class="card">
+      <div class="ctitle">Personal Records + Next Session Target</div>
+      <div class="sbox" id="prBox"><div class="empty">Log sets to see records.</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctitle">Daily Mobility Checklist</div>
+    <div class="callout w" style="margin-bottom:12px;"><strong>Mandatory before every session.</strong> ● = highest priority for your movement profile. No warm-up = no lifting.</div>
+    <div id="mobList"></div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-title" id="mTitle">Log Set</div>
+    <div class="modal-sub" id="mSub">Prescription</div>
+    <div class="rec-box" id="recBox">
+      <div class="rec-lbl">Recommended weight</div>
+      <div class="rec-val" id="recVal">—</div>
+      <div class="rec-why" id="recWhy"></div>
+    </div>
+    <div class="mgrid">
+      <div class="fg"><label class="fl">Weight (kg)</label><input class="fi" type="number" id="mWt" placeholder="kg" inputmode="decimal"></div>
+      <div class="fg"><label class="fl">Reps</label><input class="fi" type="number" id="mReps" placeholder="reps" inputmode="numeric"></div>
+      <div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="mDate"></div>
+    </div>
+    <div class="fg" style="margin-bottom:12px;"><label class="fl">Notes</label><input class="fi" type="text" id="mNotes" placeholder="Feel, fatigue, technique…"></div>
+    <div class="mcue" id="mCue"></div>
+    <div class="modal-acts">
+      <button class="btn-cancel" onclick="closeMod()">Cancel</button>
+      <button class="btn-add" onclick="saveMod()">Save Set</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// PHASE DEFINITIONS — 7 phases across 16 weeks
+// ═══════════════════════════════════════════════════════════════
+const PHASES=[
+  {id:'ps1',wks:[1,2],label:'Pre-Season I',name:'Foundation',color:'#3b82f6',type:'pre',
+   gym:4,pitch:0,rpe:'RPE 6–7 · RIR 3–4',
+   note:'<strong>Mass is the #1 goal.</strong> Dietz Triphasic eccentric phase — 4-second lowering on every compound rep. This drives more hypertrophy than any other single variable AND builds force-absorption for contact. Volume: 4×8–12 on all compounds. Conjugate power primer (2 sets BW jumps) keeps CNS athletic without touching hypertrophy volume. Bank the mass.'},
+  {id:'ps2',wks:[3,4],label:'Pre-Season II',name:'Strength',color:'#a855f7',type:'pre',
+   gym:4,pitch:0,rpe:'RPE 8–9 · RIR 1–2',
+   note:'<strong>Still building mass — intensity now climbs.</strong> Triphasic isometric phase: 2-second pause at bottom of all compounds. Builds max force at the positions that matter in rugby — low in a tackle, chest under pressure, driving off the floor. Intensity 80–87% 1RM. Volume stays high on accessories. Dan Baker: bench and deadlift 1RM are the single biggest discriminators of rugby playing level.'},
+  {id:'ps3',wks:[5,6],label:'Pre-Season III',name:'Power',color:'#f97316',type:'pre',
+   gym:4,pitch:0,rpe:'RPE 7–8 · maximal bar speed',
+   note:'<strong>Concentric phase — mass consolidates, power expresses.</strong> Compounds at 72–78% 1RM with absolute maximum bar velocity. Trap bar jumps and med ball added as primary power work. Conjugate: speed-strength alongside max strength every week. Accessory volume holds. Arrive at the taper carrying new mass and new power.'},
+  {id:'ps4',wks:[7,8],label:'Pre-Season IV',name:'Sharpen',color:'#22c55e',type:'pre',
+   gym:4,pitch:0,rpe:'RPE 7–8 · fresh and sharp',
+   note:'<strong>Protect the gains. Reduce fatigue. Peak.</strong> Volume cuts 25%, intensity holds at 85%+. No new stressors, no new exercises. Mass is banked. Bronco test Week 8. Fatigue clears — strength expresses fully. Pre-season pitch work then converts everything built here into sport-specific output.'},
+  {id:'is1',wks:[9,10,11],label:'In-Season I',name:'Build',color:'#14b8a6',type:'in',
+   gym:2,pitch:2,rpe:'RPE 8 · full body · high intensity',
+   note:'<strong>Concurrent phase begins.</strong> Two full-body gym sessions per week (Mon + Fri mornings). Two pitch sessions (Tue + Thu evenings). Research: 24+ hours between gym and pitch eliminates the interference effect. Gym volume drops but intensity stays at 80–85%. You can still gain strength and muscle on two sessions per week — study after study confirms this when intensity is maintained. Pitch fitness replaces conditioning work.'},
+  {id:'is2',wks:[12,13,14],label:'In-Season II',name:'Peak Strength',color:'#eab308',type:'in',
+   gym:2,pitch:2,rpe:'RPE 8–9 · strength peak',
+   note:'<strong>Strength peak.</strong> Intensity climbs to 87–92% on compounds. Volume stays conservative to manage fatigue from pitch sessions. Power maintained via one explosive movement per session. The mass built in weeks 1–8 is now supporting higher absolute loads. Game fitness is coming — the gym sharpens what pitch sessions can\'t.'},
+  {id:'is3',wks:[15,16],label:'In-Season III',name:'Season Ready',color:'#ef4444',type:'in',
+   gym:2,pitch:2,rpe:'RPE 7–8 · sharp and fast',
+   note:'<strong>Final sharpening.</strong> Volume at minimum effective dose. Intensity holds. Every session feels crisp. Bronco test Week 16. You arrive at the season carrying more mass, more strength, and more power than you started with 16 weeks ago. This is what commitment looks like.'},
+];
+
+function getPhaseForWk(w){return PHASES.find(p=>p.wks.includes(w))||PHASES[0];}
+
+// ═══════════════════════════════════════════════════════════════
+// EXERCISE DATABASE
+// ═══════════════════════════════════════════════════════════════
+
+// Pre-season sessions (Wks 1–8): 4 sessions/week
+const PRE_SESS=[
+  {id:'lower_a',day:'MON',title:'Lower A',type:'lower',
+   focus:'Squat · Quad & Glute Mass · Left Leg Priority',dur:'75–85 min',
+   wup:'Hip 90/90 + Glute Bridge activation',
+   exs:[
+    {id:'bw_jump',name:'BW Jump Squat (power primer)',sp:{1:'2×5',2:'2×4 light TBJ',3:'—',4:'—'},rest:'60s',prio:null,
+     cue:'Sub-max effort. Max intent. CNS primer only.',note:'Conjugate: never fully remove speed-strength even in hypertrophy phase. 10 minutes total.'},
+    {id:'squat',name:'Back Squat',sp:{1:'4×8–10',2:'5×4–5 pause',3:'4×3 max speed',4:'3×3'},rest:'2–3 min',prio:null,
+     cue:'P1: 4s eccentric, stand with intent. P2: 4s down + 2s pause at depth. P3: touch depth, explode up. Left knee out always.',
+     note:'Triphasic: eccentric (P1) builds tissue + force-absorption. Isometric pause (P2) builds starting strength at the position that matters — bottom of a tackle or scrum.'},
+    {id:'bss',name:'Bulgarian Split Squat',sp:{1:'3×10/side',2:'4×8/side',3:'3×6/side',4:'3×8/side'},rest:'90s',prio:'p1',
+     cue:'Left leg leads every set. Front foot slightly elevated. Full depth — ATG.',note:'Boyle: sport is in split stance, train that way. Directly targets left leg deficit.'},
+    {id:'rdl',name:'Romanian Deadlift',sp:{1:'4×10',2:'4×8',3:'3×8',4:'3×10'},rest:'90s',prio:null,
+     cue:'P1: 3s lowering. P2: 3s lowering. Hip hinge — push hips back until hamstring tension.',note:'Nippard: lengthened hamstring position drives superior hypertrophy.'},
+    {id:'hip_thrust',name:'Hip Thrust (Barbell)',sp:{1:'4×12',2:'4×10 ISO hold',3:'4×10',4:'3×12'},rest:'90s',prio:null,
+     cue:'P1: 3s lowering. P2: 2s squeeze ISO at full extension. Full hip extension every rep.',note:'Two sessions/week hits glute MAV. Triphasic ISO (P2) builds hip extension starting strength — crucial for scrum drive.'},
+    {id:'seated_curl',name:'Seated Leg Curl',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:null,
+     cue:'SEATED ONLY. 3s eccentric. Full stretch at extension.',note:'Left knee protocol. Nippard 2024: lengthened-position hamstring training is superior.'},
+    {id:'nordic',name:'Nordic Curl Eccentric',sp:{1:'3×5',2:'3×5',3:'3×4',4:'2×5'},rest:'90s',prio:null,
+     cue:'5-second lowering phase. Hands push back up. Never skip this.',note:'Ben Patrick: best hamstring injury prevention tool. Non-negotiable given left knee history.'},
+    {id:'incline_curl_a',name:'Incline DB Curl',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:'p1',
+     cue:'Full stretch at bottom. 3s eccentric. Long-head growth.',note:'Nippard #1 bicep exercise. Lengthened position. Arms are a priority gap.'},
+    {id:'oh_tri_a',name:'Overhead Tricep Extension',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:'p1',
+     cue:'Elbows by ears. Full stretch. Long-head stretch position.',note:'Nippard: long-head stretch = highest stimulus tricep exercise for arm size.'},
+  ]},
+  {id:'upper_a',day:'TUE',title:'Upper A',type:'upper',
+   focus:'Horizontal Push · Vertical Pull · Traps Priority',dur:'80–90 min',
+   wup:'Shoulder CARs + Band Pull-Apart + wall slide',
+   exs:[
+    {id:'bench',name:'Bench Press',sp:{1:'4×8',2:'5×4–5 pause',3:'4×4 max intent',4:'3×4'},rest:'2–3 min',prio:null,
+     cue:'P1: 4s eccentric. P2: 2s pause on chest — dead-stop press. P3: touch and drive. Scapulae retracted.',
+     note:'Triphasic paused bench (P2) removes stretch reflex, forces pure pressing power — exactly what contact requires. Baker: bench 1RM = top rugby discriminator.'},
+    {id:'wtd_pullup',name:'Weighted Pull-Up (overhand)',sp:{1:'4×6–8',2:'5×4–5',3:'4×4–5',4:'3×5'},rest:'2 min',prio:'p1',
+     cue:'P1: 3s lowering. P2: 2s dead-hang pause at bottom. Drive elbows to hips.',note:'Triphasic dead-hang pause builds lat starting strength from stretched position — like ripping a ball or driving a lineout.'},
+    {id:'incline_db',name:'Incline DB Press',sp:{1:'3×10',2:'3×8',3:'3×8',4:'3×10'},rest:'90s',prio:null,
+     cue:'P1: 3s eccentric. Touch chest, full lockout. Upper chest priority.',note:'Upper chest gap identified in photos. Nippard: incline angle = tackle drive angle.'},
+    {id:'cs_row',name:'Chest-Supported DB Row',sp:{1:'4×10',2:'4×8',3:'3×8',4:'3×10'},rest:'90s',prio:null,
+     cue:'Cressey: "be heavy on the pad." Retract hard at top. Stretch at bottom.',note:'Mid-trap and rhomboid mass. Posture and tackle resilience.'},
+    {id:'shrug',name:'Barbell Shrug (heavy)',sp:{1:'5×12',2:'5×10',3:'4×10',4:'4×12'},rest:'60s',prio:'p1',
+     cue:'HEAVY. Straight up. Hold 2s at top. No rolling.',note:'PHOTO PRIORITY #1: Traps are flat. 50–60 reps/wk across both upper sessions = contact armour.'},
+    {id:'face_pull',name:'Cable Face Pull',sp:{1:'3×15',2:'3×15',3:'3×15',4:'3×15'},rest:'60s',prio:null,
+     cue:'External rotation at end. Elbows high. Every session, no exceptions.',note:'Cressey: posterior shoulder health insurance. Counterbalances heavy pressing volume.'},
+    {id:'lat_raise',name:'DB Lateral Raise',sp:{1:'4×15',2:'4×12',3:'4×12',4:'4×15'},rest:'45s',prio:'p2',
+     cue:'Slow 2s eccentric. Slight forward lean. 4 sets minimum — treat like a compound.',note:'PHOTO GAP: shoulder width. Medial delts underdeveloped. 4 sets every upper session.'},
+    {id:'neck_iso',name:'Neck Isometric (4-way)',sp:{1:'3×20s',2:'3×25s',3:'3×25s',4:'3×20s'},rest:'30s',prio:'p1',
+     cue:'Palm against head. Front/back/left/right. Controlled.',note:'Contact armour. Neck mass absorbs collision energy. Loose forward non-negotiable.'},
+    {id:'incline_curl_b',name:'Incline DB Curl',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:'p1',
+     cue:'Full stretch. 3s eccentric. No swinging.',note:'Second bicep session. 18–20 sets/wk total for a lagging group.'},
+    {id:'oh_tri_b',name:'Overhead Tricep Extension',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:'p1',
+     cue:'Elbows by ears. Full stretch at bottom.',note:'Second tricep long-head session. Arm priority.'},
+  ]},
+  {id:'mob_day',day:'WED',title:'Mobility',type:'rest',
+   focus:'Active Recovery · APT Correction · Skill Work',dur:'30–45 min',wup:null,
+   exs:[
+    {id:'hip90',name:'Hip 90/90 Flow',sp:{1:'5 min',2:'5 min',3:'5 min',4:'5 min'},rest:'—',prio:'p1',
+     cue:'Lead with hip, not back. Work to pain-free end range.',note:'Priority — addresses APT and hip capsule tightness.'},
+    {id:'hipflex',name:'Kneeling Hip Flexor Stretch',sp:{1:'3×45s/side',2:'3×45s/side',3:'3×60s/side',4:'3×45s/side'},rest:'—',prio:'p1',
+     cue:'Posterior pelvic tilt. Squeeze rear glute.',note:'Priority — key APT corrector. Ben Patrick.'},
+    {id:'wallslide',name:'Wall Slide + Reach',sp:{1:'3×10',2:'3×10',3:'3×10',4:'3×10'},rest:'—',prio:'p1',
+     cue:'Forearms on wall. No rib flare.',note:'Priority — anterior shoulder correction. Cressey.'},
+    {id:'thorot',name:'Thoracic Rotation',sp:{1:'3×10/side',2:'3×10/side',3:'3×10/side',4:'3×10/side'},rest:'—',prio:null,
+     cue:'T-spine rotation, not lumbar. Pelvis still.',note:'T-spine mobility for carries and scrum.'},
+    {id:'glact',name:'Glute Bridge Activation',sp:{1:'2×15',2:'2×15',3:'2×15',4:'2×15'},rest:'—',prio:'p1',
+     cue:'Squeeze glutes at top. Single leg as progression.',note:'Fire before loading.'},
+    {id:'hshold',name:'Handstand Wall Hold',sp:{1:'3×30s',2:'3×40s',3:'3×45s',4:'3×45s'},rest:'60s',prio:null,
+     cue:'Straight line. Active shoulders. Rib cage tucked.',note:'Skill progression — shoulder stability.'},
+    {id:'z2opt',name:'Zone 2 Walk / Easy Bike',sp:{1:'20–30 min',2:'20–30 min',3:'20–30 min',4:'20–30 min'},rest:'—',prio:null,
+     cue:'115–140 bpm. Nasal breathing. Recovery only.',note:'Zone 2 aerobic base without competing with gym recovery.'},
+  ]},
+  {id:'lower_b',day:'THU',title:'Lower B',type:'lower',
+   focus:'Hinge · Posterior Chain · Glute Priority',dur:'75–85 min',
+   wup:'Single-leg glute bridge ISO holds',
+   exs:[
+    {id:'tbdl',name:'Trap Bar Deadlift',sp:{1:'4×6',2:'5×4 dead-stop',3:'4×3 max intent',4:'3×3'},rest:'2–3 min',prio:null,
+     cue:'P1: 3s lowering, reset, drive. P2: dead-stop 2s on floor each rep — eliminates stretch reflex. P3: rip off floor, max intent.',
+     note:'Dan Baker: 1RM deadlift predicts sprint and carry performance in rugby. Triphasic dead-stop (P2) = pure starting strength for scrum drives.'},
+    {id:'slrdl',name:'Single-Leg RDL',sp:{1:'3×10/side',2:'3×8/side',3:'3×8/side',4:'3×10/side'},rest:'90s',prio:'p1',
+     cue:'Cressey "see-saw" cue. 3s lowering. Left leg leads.',note:'Boyle: single-leg work fixes imbalances. Primary left leg asymmetry corrector.'},
+    {id:'hip_thrust_b',name:'Hip Thrust (Barbell)',sp:{1:'4×12',2:'4×10 ISO',3:'4×10',4:'3×12'},rest:'90s',prio:null,
+     cue:'P2: 2s ISO hold at full extension. Full hip extension every rep.',note:'Two sessions/wk = glute MAV. ISO (P2) trains hip extension starting strength.'},
+    {id:'goblet',name:'Goblet Squat (3s tempo)',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:null,
+     cue:'3s down, 1s pause at depth. Heels elevated if mobility limited.',note:'ATG: heel elevation trains depth while mobility improves. Fills mobility gap.'},
+    {id:'seated_curl_b',name:'Seated Leg Curl',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:null,
+     cue:'SEATED ONLY. 3s eccentric.',note:'Second hamstring lengthened session.'},
+    {id:'rfess',name:'Rear-Foot Elevated Split Squat',sp:{1:'3×10/side',2:'3×8/side',3:'3×6/side',4:'3×8/side'},rest:'60s',prio:'p1',
+     cue:'Left leg leads. Full depth.',note:'Second unilateral lower movement — left leg deficit priority.'},
+    {id:'slcalf',name:'Single-Leg Calf Raise',sp:{1:'3×15/side',2:'3×15/side',3:'3×12/side',4:'3×15/side'},rest:'45s',prio:null,
+     cue:'Full ROM. Hold 1s at top.',note:'Ben Patrick: Achilles health for running and COD.'},
+    {id:'incline_curl_c',name:'Incline DB Curl',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:'p1',
+     cue:'Full stretch. Slow down.',note:'Third bicep session. Lagging muscle = higher frequency.'},
+    {id:'oh_tri_c',name:'Overhead Tricep Extension',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:'p1',
+     cue:'Full stretch at bottom.',note:'Long-head volume accumulation.'},
+  ]},
+  {id:'upper_b',day:'FRI',title:'Upper B',type:'upper',
+   focus:'Vertical Push · Lat Width · Shoulders & Arms',dur:'80–90 min',
+   wup:'Overhead reach + shoulder opener + CARs',
+   exs:[
+    {id:'ohp',name:'Seated DB OHP',sp:{1:'4×8',2:'5×4–5 pause',3:'4×4',4:'3×5'},rest:'2–3 min',prio:null,
+     cue:'P1: 4s eccentric. P2: 2s pause at shoulder level. P3: explosive press. No lumbar arch.',
+     note:'Triphasic: eccentric drives deltoid hypertrophy (P1). Pause builds starting strength for contact (P2). Shoulder width is your photo gap.'},
+    {id:'pullup_bw',name:'Pull-Up BW (overhand)',sp:{1:'4×max',2:'4×max',3:'4×max',4:'3×max'},rest:'2 min',prio:'p1',
+     cue:'P1: 3s lowering. P2: dead-hang pause at bottom. Drive elbows down.',note:'Lat frequency is the growth driver. Full hang mandatory every rep.'},
+    {id:'lat_pd',name:'Wide-Grip Lat Pulldown',sp:{1:'3×10',2:'3×8',3:'3×8',4:'3×10'},rest:'90s',prio:'p1',
+     cue:'Full stretch at top. Pull to upper chest.',note:'Nippard: wide grip maximises lat stretch. Lat width is your photo gap.'},
+    {id:'pendlay',name:'Pendlay Row',sp:{1:'4×8',2:'4×6',3:'3×6',4:'3×8'},rest:'2 min',prio:null,
+     cue:'Bar dead on floor each rep. Explosive pull.',note:'Upper back thickness — traps, rhomboids, rear delts.'},
+    {id:'upright_row',name:'DB Upright Row',sp:{1:'4×12',2:'4×10',3:'4×10',4:'4×12'},rest:'60s',prio:'p1',
+     cue:'Elbows lead to chin. Trap + medial delt.',note:'TRAP PRIORITY: second trap session. 50–60 reps/wk total.'},
+    {id:'lat_raise_b',name:'DB Lateral Raise',sp:{1:'4×15',2:'4×12',3:'4×12',4:'4×15'},rest:'45s',prio:'p2',
+     cue:'Slow 2s eccentric. 4 sets minimum.',note:'Shoulder width — treat like a compound. Never fewer than 4 sets.'},
+    {id:'face_pull_b',name:'Cable Face Pull',sp:{1:'3×15',2:'3×15',3:'3×15',4:'3×15'},rest:'60s',prio:null,
+     cue:'External rotation. Elbows high.',note:'Shoulder health every upper session.'},
+    {id:'incline_curl_d',name:'Incline DB Curl',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:'p1',
+     cue:'Full stretch. Squeeze at top.',note:'Fourth bicep session. 24 sets/wk total for lagging group.'},
+    {id:'skull_c',name:'Skull Crusher (EZ bar)',sp:{1:'3×12',2:'3×10',3:'3×10',4:'3×12'},rest:'60s',prio:'p1',
+     cue:'Elbows fixed overhead. Lower to forehead.',note:'Nippard: overhead = long-head stretch. Variety from OH extension maintains stimulus.'},
+  ]},
+  {id:'cond',day:'SAT',title:'Conditioning',type:'cond',
+   focus:'Optional — Bronco Practice / Aerobic Base. NOT day after Lower B.',dur:'40–60 min',wup:'5 min Zone 1 jog',
+   exs:[
+    {id:'amarch',name:'A-March Drill',sp:{1:'3×20m',2:'3×20m',3:'4×20m',4:'3×20m'},rest:'Walk back',prio:null,
+     cue:'High knee drive, dorsiflexed foot, 90° arms.',note:'Running mechanics — addresses the pattern, not a symptom.'},
+    {id:'askip',name:'A-Skip Drill',sp:{1:'3×20m',2:'3×20m',3:'4×20m',4:'3×20m'},rest:'Walk back',prio:null,
+     cue:'Rhythm and bounce on A-march pattern.',note:'Extends mechanics into running rhythm.'},
+    {id:'accel',name:'Acceleration Sprints 10–20m',sp:{1:'6×15m',2:'6×15m',3:'8×15m',4:'6×15m'},rest:'60–90s full',prio:null,
+     cue:'Drive phase — stay low, push back. Zone 4–5. Full recovery.',note:'Short distance only. Max intent. Full rest between reps.'},
+    {id:'bronco',name:'Bronco Practice Run',sp:{1:'1× at 70%',2:'1× at 75%',3:'2× at 80%',4:'1× full test'},rest:'5–8 min',prio:null,
+     cue:'Zone 4–5 during. Rest to ~130 bpm before repeating. Week 8 = full test.',note:'Target sub 4:50 at Wk 8. Track every run.'},
+    {id:'z2_run',name:'Zone 2 Jog / Row',sp:{1:'15 min',2:'15 min',3:'20 min',4:'15 min'},rest:'Continuous',prio:null,
+     cue:'115–140 bpm. Nasal breathing.',note:'Aerobic engine building.'},
+  ]},
+];
+
+// In-season sessions (Wks 9–16): 2 full-body gym sessions + 2 pitch sessions
+// Phase map: is1=wks9-11(p5/6), is2=wks12-14(p6/7), is3=wks15-16(p7)
+// In-season gym phase indices: 1=is1, 2=is2, 3=is3
+const IN_SESS=[
+  {id:'fb_mon',day:'MON',title:'Full Body A',type:'full',
+   focus:'Posterior Chain + Upper Push/Pull · Concurrent Phase',dur:'65–75 min',
+   wup:'Hip 90/90 + Shoulder CARs + Glute activation (10 min)',
+   exs:[
+    {id:'is_tbdl',name:'Trap Bar Deadlift',sp:{5:'4×4 @ 82%',6:'4×3 @ 87%',7:'3×3 @ 90%'},rest:'3 min',prio:null,
+     cue:'Max intent every rep. Dead-stop each rep. Protect the strength gains.',note:'Primary strength exercise in-season. Baker: maintain deadlift strength = maintain rugby performance.'},
+    {id:'is_jump',name:'Trap Bar Jump',sp:{5:'3×4 @ 40%',6:'3×4 @ 40%',7:'3×3 @ 40%'},rest:'2 min',prio:null,
+     cue:'Max height. Max intent. Light load. Full reset between reps.',note:'Conjugate: never remove power work. Maintains RFD during in-season.'},
+    {id:'is_bench',name:'Bench Press',sp:{5:'4×4 @ 82%',6:'4×3 @ 87%',7:'3×4 @ 85%'},rest:'2–3 min',prio:null,
+     cue:'Paused rep on first set each session. Full ROM.',note:'Maintain upper-body strength. Baker: bench = #1 rugby discriminator.'},
+    {id:'is_wtd_pu',name:'Weighted Pull-Up',sp:{5:'3×5',6:'3×4',7:'3×5'},rest:'2 min',prio:'p1',
+     cue:'Full dead hang. Drive elbows to hips.',note:'Lat maintenance and continued growth on 2 sessions/wk.'},
+    {id:'is_hip_thrust',name:'Hip Thrust (Barbell)',sp:{5:'3×10',6:'3×8',7:'3×10'},rest:'90s',prio:null,
+     cue:'Full hip extension. 1s squeeze.',note:'Glute maintenance. Critical for APT and tackle drive.'},
+    {id:'is_shrug',name:'Barbell Shrug',sp:{5:'4×12',6:'4×10',7:'4×12'},rest:'60s',prio:'p1',
+     cue:'Heavy. Hold 2s at top.',note:'Trap mass maintenance. Contact armour.'},
+    {id:'is_curl_a',name:'Incline DB Curl',sp:{5:'3×10',6:'3×10',7:'3×10'},rest:'60s',prio:'p1',
+     cue:'Full stretch. Controlled eccentric.',note:'Arm maintenance — 2 sessions still enough to grow on.'},
+    {id:'is_tri_a',name:'Overhead Tricep Extension',sp:{5:'3×10',6:'3×10',7:'3×10'},rest:'60s',prio:'p1',
+     cue:'Full stretch. Elbows by ears.',note:'Tricep long-head maintenance.'},
+  ]},
+  {id:'pitch_tue',day:'TUE',title:'Pitch Session',type:'pitch',
+   focus:'Rugby Training — Technical & Fitness',dur:'90–120 min',wup:null,
+   exs:[
+    {id:'p1',name:'Team warm-up',sp:{5:'15 min',6:'15 min',7:'15 min'},rest:'—',prio:null,cue:'Get into it.',note:''},
+    {id:'p2',name:'Skills and drills',sp:{5:'30–40 min',6:'30–40 min',7:'30–40 min'},rest:'—',prio:null,cue:'Technical focus.',note:''},
+    {id:'p3',name:'Conditioning/fitness work',sp:{5:'20–30 min',6:'20–30 min',7:'20–30 min'},rest:'Per coach',prio:null,cue:'This is your conditioning — no separate cardio needed.',note:'Zone 2–4 depending on session type.'},
+  ]},
+  {id:'rest_wed',day:'WED',title:'Recovery',type:'rest',
+   focus:'Active Recovery · Mobility Only',dur:'20–30 min',wup:null,
+   exs:[
+    {id:'wr1',name:'Hip 90/90 Flow',sp:{5:'5 min',6:'5 min',7:'5 min'},rest:'—',prio:'p1',cue:'Gentle end-range work.',note:'Priority APT correction.'},
+    {id:'wr2',name:'Hip Flexor Stretch',sp:{5:'3×45s/side',6:'3×45s/side',7:'3×45s/side'},rest:'—',prio:'p1',cue:'Squeeze rear glute.',note:'APT corrector.'},
+    {id:'wr3',name:'Shoulder CARs + Wall Slide',sp:{5:'2×10 each',6:'2×10 each',7:'2×10 each'},rest:'—',prio:'p1',cue:'Shoulder opener.',note:'Maintains shoulder mobility.'},
+    {id:'wr4',name:'Foam Roll / Percussion (whole body)',sp:{5:'10–15 min',6:'10–15 min',7:'10–15 min'},rest:'—',prio:null,cue:'Tissue quality. Not a workout.',note:'Recovery tool.'},
+  ]},
+  {id:'pitch_thu',day:'THU',title:'Pitch Session',type:'pitch',
+   focus:'Rugby Training — Technical & Fitness',dur:'90–120 min',wup:null,
+   exs:[
+    {id:'pt1',name:'Team warm-up',sp:{5:'15 min',6:'15 min',7:'15 min'},rest:'—',prio:null,cue:'Get into it.',note:''},
+    {id:'pt2',name:'Skills and drills',sp:{5:'30–40 min',6:'30–40 min',7:'30–40 min'},rest:'—',prio:null,cue:'Technical focus.',note:''},
+    {id:'pt3',name:'Conditioning/fitness work',sp:{5:'20–30 min',6:'20–30 min',7:'20–30 min'},rest:'Per coach',prio:null,cue:'Two pitch sessions replaces all separate conditioning.',note:''},
+  ]},
+  {id:'fb_fri',day:'FRI',title:'Full Body B',type:'full',
+   focus:'Lower Body + Upper Accessory · Power Emphasis',dur:'65–75 min',
+   wup:'Glute bridge + Single-leg activation (8 min)',
+   exs:[
+    {id:'is_squat',name:'Back Squat',sp:{5:'4×4 @ 80%',6:'4×3 @ 85%',7:'3×3 @ 87%'},rest:'3 min',prio:null,
+     cue:'Paused first set. Quality > quantity. Left knee cue.',note:'Maintain squat strength. Mobility improvements should still be moving the number.'},
+    {id:'is_bss',name:'Bulgarian Split Squat',sp:{5:'3×8/side',6:'3×6/side',7:'3×8/side'},rest:'90s',prio:'p1',
+     cue:'Left leg leads. ATG depth.',note:'Left leg deficit — continue addressing in-season.'},
+    {id:'is_ohp',name:'Seated DB OHP',sp:{5:'4×6',6:'4×5',7:'3×6'},rest:'2 min',prio:null,
+     cue:'Full lockout. 2s eccentric.',note:'Shoulder maintenance. Width is still being built.'},
+    {id:'is_row',name:'Pendlay Row',sp:{5:'4×6',6:'4×5',7:'3×6'},rest:'2 min',prio:null,
+     cue:'Bar dead on floor each rep.',note:'Upper back mass maintenance.'},
+    {id:'is_lat_raise',name:'DB Lateral Raise',sp:{5:'4×12',6:'4×12',7:'4×15'},rest:'45s',prio:'p2',
+     cue:'Slow 2s eccentric. 4 sets.',note:'Shoulder width — never drop below 4 sets.'},
+    {id:'is_neck',name:'Neck Isometric (4-way)',sp:{5:'3×20s',6:'3×25s',7:'3×20s'},rest:'30s',prio:'p1',
+     cue:'Front/back/left/right. Controlled.',note:'Contact armour — critical every week of the season.'},
+    {id:'is_curl_b',name:'Incline DB Curl',sp:{5:'3×10',6:'3×10',7:'3×10'},rest:'60s',prio:'p1',
+     cue:'Full stretch. No swinging.',note:'Arm maintenance in-season.'},
+    {id:'is_face_pull',name:'Cable Face Pull',sp:{5:'3×15',6:'3×15',7:'3×15'},rest:'60s',prio:null,
+     cue:'External rotation. Elbows high.',note:'Shoulder health — every session always.'},
+  ]},
+  {id:'rest_sat',day:'SAT',title:'Rest',type:'rest',
+   focus:'Full Rest — Recover from Two Pitch + Two Gym Sessions',dur:'—',wup:null,
+   exs:[
+    {id:'rs1',name:'Full rest or light walk',sp:{5:'—',6:'—',7:'—'},rest:'—',prio:null,cue:'Rest is training.',note:'With 4 sessions/wk (2 gym + 2 pitch), Saturday is recovery. Optional: 20 min Zone 1 walk only.'},
+  ]},
+];
+
+// Phase index mapping for in-season sessions
+function getIsPhaseIdx(w){
+  const p=getPhaseForWk(w);
+  if(p.id==='is1')return 5;
+  if(p.id==='is2')return 6;
+  return 7;
+}
+
+// Power phase insertions for pre-season
+const POWER_LOWER={id:'tbj_main',name:'Trap Bar Jump (explosive)',sp:{1:'—',2:'—',3:'4×4 @ 65%',4:'3×3 @ 65%'},rest:'3 min full',prio:null,
+  cue:'65–70% 1RM. Maximum height intent. Land soft. Full reset.',note:'Triphasic concentric phase: rate of force development is the priority. Fast-twitch conversion for rugby.'};
+const POWER_UPPER={id:'mbp_main',name:'Med Ball Chest Pass (wall)',sp:{1:'—',2:'—',3:'4×6',4:'3×6'},rest:'90s',prio:null,
+  cue:'Drive from legs and core. Explosive release. Full reset.',note:'Upper body RFD — tackle drive, lineout, carry off the line.'};
+
+const MOBILITY_LIST=[
+  {nm:'Hip 90/90 Flow',sets:'5 min',star:true},
+  {nm:'Kneeling Hip Flexor Stretch',sets:'3×45s /side',star:true},
+  {nm:'Wall Slide + Reach',sets:'3×10',star:true},
+  {nm:'Shoulder CARs',sets:'2×10 each',star:true},
+  {nm:'Glute Bridge Activation',sets:'2×15',star:true},
+  {nm:'Thoracic Rotation',sets:'3×10 /side',star:false},
+  {nm:'Cat-Cow',sets:'2 min',star:false},
+  {nm:'Handstand Wall Hold',sets:'3×30–45s',star:false},
+];
+
+// All exercise names for dropdown
+const ALL_EX=[...new Set([...PRE_SESS,...IN_SESS].flatMap(s=>s.exs.map(e=>e.name)))].sort();
+
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+const S={
+  week:1,
+  logs:JSON.parse(localStorage.getItem('sc16_logs')||'[]'),
+  bw:JSON.parse(localStorage.getItem('sc16_bw')||'[]'),
+  mob:JSON.parse(localStorage.getItem('sc16_mob')||'{}'),
+  modEx:'',modSets:'',modCue:'',
+};
+function persist(){
+  localStorage.setItem('sc16_logs',JSON.stringify(S.logs));
+  localStorage.setItem('sc16_bw',JSON.stringify(S.bw));
+  localStorage.setItem('sc16_mob',JSON.stringify(S.mob));
+}
+const today=()=>new Date().toISOString().split('T')[0];
+const est1RM=(w,r)=>Math.round(w*(1+r/30));
+const r5=(n)=>Math.round(n*2)/2;
+
+// ═══════════════════════════════════════════════════════════════
+// RECOMMENDATION ENGINE
+// ═══════════════════════════════════════════════════════════════
+function getRec(exName){
+  const logs=S.logs.filter(l=>l.exercise===exName&&l.weight>0);
+  if(!logs.length)return null;
+  const lastDate=logs[0].date;
+  const lastSets=logs.filter(l=>l.date===lastDate);
+  if(!lastSets.length)return null;
+  const avgW=lastSets.reduce((a,b)=>a+b.weight,0)/lastSets.length;
+  const avgR=lastSets.reduce((a,b)=>a+b.reps,0)/lastSets.length;
+  // Find target rep range
+  const allEx=[...PRE_SESS,...IN_SESS].flatMap(s=>s.exs);
+  const ex=allEx.find(e=>e.name===exName);
+  const ph=getPhaseForWk(S.week);
+  const phIdx=ph.type==='pre'?ph.id.slice(-1)*1:getIsPhaseIdx(S.week);
+  const setsStr=ex?ex.sp[phIdx]||'':'' ;
+  let rMin=6,rMax=12;
+  const m=setsStr.match(/×(\d+)(?:–(\d+))?/);
+  if(m){rMin=parseInt(m[1]);rMax=m[2]?parseInt(m[2]):parseInt(m[1]);}
+  const isLower=['Trap Bar Deadlift','Back Squat','Romanian Deadlift','Hip Thrust (Barbell)',
+    'Bulgarian Split Squat','Single-Leg RDL','Goblet Squat (3s tempo)',
+    'Rear-Foot Elevated Split Squat','Seated Leg Curl','Single-Leg Calf Raise'].includes(exName);
+  const inc=isLower?5:2.5;
+  let rec,reason;
+  if(avgR>=rMax){rec=r5(avgW+inc);reason=`Last: ${avgW}kg × avg ${Math.round(avgR)} reps — hit top of range. Add weight.`;}
+  else if(avgR<rMin&&avgR>0){rec=r5(avgW-inc);reason=`Last: ${avgW}kg × avg ${Math.round(avgR)} reps — below range. Drop weight, own the reps.`;}
+  else{rec=r5(avgW);reason=`Last: ${avgW}kg × avg ${Math.round(avgR)} reps — in range. Hold weight, push for ${rMax} reps.`;}
+  const maxEver=Math.max(...logs.map(l=>l.weight));
+  if(rec>maxEver*1.075){rec=maxEver;reason='Capped at 7.5% weekly jump. Hold at best weight.';}
+  return{weight:rec,reason};
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════════════════════
+function nav(name,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
+  document.getElementById('view-'+name).classList.add('on');
+  if(btn)btn.classList.add('on');
+  if(name==='schedule')renderSchedule();
+  if(name==='log')renderLog();
+  if(name==='progress')renderProgress();
+}
+function jumpPhase(id){
+  const ph=PHASES.find(p=>p.id===id);
+  S.week=ph.wks[0];
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
+  document.getElementById('view-schedule').classList.add('on');
+  document.querySelectorAll('.pill')[1].classList.add('on');
+  renderSchedule();
+}
+function jumpWeek(w){
+  S.week=w;
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.pill').forEach(b=>b.classList.remove('on'));
+  document.getElementById('view-schedule').classList.add('on');
+  document.querySelectorAll('.pill')[1].classList.add('on');
+  renderSchedule();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// OVERVIEW RENDER
+// ═══════════════════════════════════════════════════════════════
+function renderTimeline(){
+  const tl=document.getElementById('timeline');
+  tl.innerHTML='';
+  for(let w=1;w<=16;w++){
+    const ph=getPhaseForWk(w);
+    const d=document.createElement('div');
+    d.className='tl-wk'+(w===S.week?' cur':'');
+    d.style.borderColor=w===S.week?ph.color:undefined;
+    d.onclick=()=>jumpWeek(w);
+    const hasLog=S.logs.some(l=>l.week===w);
+    d.innerHTML=`<div class="tl-stripe" style="background:${ph.color}"></div>
+      <div class="tl-n">${w}</div>
+      <div class="tl-label">${ph.type==='pre'?'Gym':'Pitch'}</div>
+      ${hasLog?'<div class="tl-done">✓</div>':''}`;
+    tl.appendChild(d);
+  }
+}
+function renderPhaseRail(){
+  const rail=document.getElementById('phaseRail');
+  rail.innerHTML='';
+  PHASES.forEach(ph=>{
+    const d=document.createElement('div');
+    d.className='ph-tile'+(getPhaseForWk(S.week).id===ph.id?' active-ph':'');
+    d.onclick=()=>jumpPhase(ph.id);
+    d.innerHTML=`<div class="ph-top" style="background:${ph.color}"></div>
+      <div class="ph-lbl">${ph.label} · Wks ${ph.wks[0]}–${ph.wks[ph.wks.length-1]}</div>
+      <div class="ph-name">${ph.name}</div>
+      <div class="ph-sub">${ph.gym}× gym/wk · ${ph.pitch}× pitch/wk · ${ph.rpe}</div>`;
+    rail.appendChild(d);
+  });
+}
+function updateBadges(){
+  const ph=getPhaseForWk(S.week);
+  document.getElementById('wkBadge').textContent='WK '+String(S.week).padStart(2,'0');
+  document.getElementById('phaseBadge').textContent=ph.label;
+  document.getElementById('phaseBadge').style.color=ph.color;
+  document.getElementById('phaseBadge').style.borderColor=ph.color+'60';
+  document.getElementById('ov-wk').textContent=S.week;
+  const phName=ph.name;
+  const phType=ph.type==='pre'?'Pre-Season':'In-Season';
+  document.getElementById('ov-ph').textContent=phName+' ('+phType+')';
+  document.getElementById('ov-phase-name').textContent=ph.label;
+  const phSub=document.getElementById('ov-phase-sub');
+  if(phSub)phSub.innerHTML=ph.gym+'× gym/week<br>'+ph.pitch+'× pitch sessions';
+  const pct=Math.round((S.week/16)*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-txt').textContent=pct+'% complete';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCHEDULE
+// ═══════════════════════════════════════════════════════════════
+function getSessions(w){
+  const ph=getPhaseForWk(w);
+  if(ph.type==='pre'){
+    const phN=parseInt(ph.id.slice(-1));
+    const sessions=JSON.parse(JSON.stringify(PRE_SESS));
+    // Add power insertions for phases 3 and 4
+    if(phN>=3){
+      sessions[0].exs.splice(2,0,JSON.parse(JSON.stringify(POWER_LOWER)));
+      sessions[1].exs.splice(2,0,JSON.parse(JSON.stringify(POWER_UPPER)));
+      sessions[3].exs.splice(2,0,JSON.parse(JSON.stringify(POWER_LOWER)));
+    }
+    return sessions;
+  }else{
+    return JSON.parse(JSON.stringify(IN_SESS));
+  }
+}
+function getSets(ex,w){
+  const ph=getPhaseForWk(w);
+  if(ph.type==='pre'){
+    const n=parseInt(ph.id.slice(-1));
+    return ex.sp[n]||'—';
+  }else{
+    const idx=getIsPhaseIdx(w);
+    return ex.sp[idx]||'—';
+  }
+}
+function renderSchedule(){
+  updateBadges();
+  renderTimeline();
+  renderPhaseRail();
+  // Week tabs
+  const tabs=document.getElementById('wkTabs');
+  tabs.innerHTML='';
+  for(let w=1;w<=16;w++){
+    const ph=getPhaseForWk(w);
+    const b=document.createElement('button');
+    b.className='wtab'+(w===S.week?' on':'');
+    b.textContent='W'+w+'·'+ph.name.slice(0,3).toUpperCase();
+    b.style.borderColor=w===S.week?undefined:ph.color+'50';
+    b.onclick=()=>{S.week=w;renderSchedule();};
+    tabs.appendChild(b);
+  }
+  const ph=getPhaseForWk(S.week);
+  document.getElementById('phaseBannerArea').innerHTML=`
+    <div class="phase-banner">
+      <div class="pb-label" style="color:${ph.color}">${ph.label} — Wks ${ph.wks[0]}–${ph.wks[ph.wks.length-1]} · ${ph.rpe}</div>
+      <div class="pb-name">${ph.name}</div>
+      <div class="pb-note">${ph.note}</div>
+    </div>`;
+  const grid=document.getElementById('sessGrid');
+  grid.innerHTML='';
+  const bc={lower:'b-lower',upper:'b-upper',full:'b-full',rest:'b-rest',cond:'b-cond',pitch:'b-pitch'};
+  getSessions(S.week).forEach(sess=>{
+    const done=n=>S.logs.some(l=>l.exercise===n);
+    const el=document.createElement('div');
+    el.className='sc';
+    el.innerHTML=`
+      <div class="sc-head">
+        <div class="sc-day">${sess.day}</div>
+        <span class="sc-badge ${bc[sess.type]||'b-rest'}">${sess.title}</span>
+      </div>
+      <div class="sc-meta">
+        <span class="sc-mi">⏱ <strong>${sess.dur}</strong></span>
+        ${sess.wup?`<span class="sc-mi">Warm-up: <strong>${sess.wup}</strong></span>`:''}
+      </div>
+      <div class="sc-focus">${sess.focus}</div>
+      <ul class="ex-list">
+        ${sess.exs.map((ex,i)=>{
+          const rec=getRec(ex.name);
+          const sets=getSets(ex,S.week);
+          const isDone=done(ex.name);
+          const prioBadge=ex.prio==='p1'?'<span class="prio-chip p1-chip">Priority</span>':
+            ex.prio==='p2'?'<span class="prio-chip p2-chip">Focus</span>':'';
+          const nEs=ex.name.replace(/'/g,"\\'");
+          const sEs=sets.replace(/'/g,"\\'");
+          const cEs=(ex.cue||'').replace(/'/g,"\\'");
+          return `<li class="ex-row" onclick="openMod('${nEs}','${sEs}','${cEs}')">
+            <span class="ex-n">${i+1}</span>
+            <div class="ex-body">
+              <div class="ex-name">${ex.name}${prioBadge}</div>
+              <div class="ex-detail">
+                <span>${sets}</span>
+                <span style="color:var(--border)">·</span>
+                <span>rest ${ex.rest}</span>
+                ${rec?`<span class="rec-chip">→ ${rec.weight}kg</span>`:''}
+              </div>
+            </div>
+            <span class="${isDone?'ex-tick':'ex-arr'}">${isDone?'✓':'›'}</span>
+          </li>`;
+        }).join('')}
+      </ul>`;
+    grid.appendChild(el);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════════════════════════
+function openMod(name,sets,cue){
+  S.modEx=name;S.modSets=sets;S.modCue=cue;
+  document.getElementById('mTitle').textContent=name;
+  document.getElementById('mSub').textContent=sets;
+  const cueEl=document.getElementById('mCue');
+  if(cue){cueEl.textContent=cue;cueEl.style.display='block';}
+  else{cueEl.style.display='none';}
+  const rec=getRec(name);
+  const rb=document.getElementById('recBox');
+  if(rec){
+    document.getElementById('recVal').textContent=rec.weight+'kg';
+    document.getElementById('recWhy').textContent=rec.reason;
+    rb.classList.add('on');
+    document.getElementById('mWt').value=rec.weight;
+  }else{
+    rb.classList.remove('on');
+    document.getElementById('mWt').value='';
+  }
+  document.getElementById('mDate').value=today();
+  document.getElementById('mReps').value='';
+  document.getElementById('mNotes').value='';
+  document.getElementById('modalBg').classList.add('on');
+  setTimeout(()=>document.getElementById('mWt').focus(),80);
+}
+function closeMod(){document.getElementById('modalBg').classList.remove('on');}
+function saveMod(){
+  const w=parseFloat(document.getElementById('mWt').value);
+  const r=parseInt(document.getElementById('mReps').value);
+  if(isNaN(w)){alert('Enter weight (0 for bodyweight)');return;}
+  if(!r||r<1){alert('Enter reps');return;}
+  S.logs.unshift({id:Date.now(),week:S.week,exercise:S.modEx,weight:w,reps:r,
+    date:document.getElementById('mDate').value,
+    notes:document.getElementById('mNotes').value});
+  persist();closeMod();
+  if(document.getElementById('view-schedule').classList.contains('on'))renderSchedule();
+  if(document.getElementById('view-log').classList.contains('on'))renderLog();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LOG
+// ═══════════════════════════════════════════════════════════════
+function doLog(){
+  const ex=document.getElementById('lEx').value;
+  const w=parseFloat(document.getElementById('lWt').value);
+  const r=parseInt(document.getElementById('lReps').value);
+  if(!ex){alert('Select exercise');return;}
+  if(isNaN(w)){alert('Enter weight');return;}
+  if(!r||r<1){alert('Enter reps');return;}
+  S.logs.unshift({id:Date.now(),week:S.week,exercise:ex,weight:w,reps:r,
+    date:document.getElementById('lDate').value||today(),
+    notes:document.getElementById('lNotes').value});
+  persist();
+  document.getElementById('lWt').value='';
+  document.getElementById('lReps').value='';
+  document.getElementById('lNotes').value='';
+  renderLog();
+}
+function delLog(id){S.logs=S.logs.filter(l=>l.id!==id);persist();renderLog();renderProgress();}
+function renderLog(){
+  const body=document.getElementById('logBody');
+  if(!S.logs.length){body.innerHTML='<tr><td colspan="8"><div class="empty">No sets logged yet.</div></td></tr>';return;}
+  const prs={};
+  S.logs.forEach(l=>{const rm=est1RM(l.weight,l.reps);if(!prs[l.exercise]||rm>prs[l.exercise])prs[l.exercise]=rm;});
+  body.innerHTML=S.logs.slice(0,100).map(l=>{
+    const rm=est1RM(l.weight,l.reps);const isPR=rm>=prs[l.exercise];
+    const rec=getRec(l.exercise);
+    const nextTxt=rec?`<span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--live)">${rec.weight}kg</span>`:'<span style="color:var(--dim)">—</span>';
+    return `<tr>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)">${l.date}</td>
+      <td style="font-weight:500;font-size:12px">${l.exercise}${isPR?'<span class="pr-chip">PR</span>':''}</td>
+      <td style="font-family:'JetBrains Mono',monospace">${l.weight}kg</td>
+      <td style="font-family:'JetBrains Mono',monospace">${l.reps}</td>
+      <td style="font-family:'JetBrains Mono',monospace;color:var(--dim)">${rm}kg</td>
+      <td>${nextTxt}</td>
+      <td style="color:var(--dim);font-size:11px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${l.notes||'—'}</td>
+      <td><button class="btn-del" onclick="delLog(${l.id})">×</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PROGRESS
+// ═══════════════════════════════════════════════════════════════
+function saveBW(){
+  const v=parseFloat(document.getElementById('bwIn').value);
+  if(!v)return;
+  S.bw.unshift({date:today(),w:v});
+  if(S.bw.length>30)S.bw.pop();
+  persist();document.getElementById('bwIn').value='';renderProgress();
+}
+function renderProgress(){
+  const bwEl=document.getElementById('bwHist');
+  bwEl.innerHTML=!S.bw.length?'<div style="color:var(--dim);font-size:12px;">No weigh-ins yet.</div>':
+    S.bw.slice(0,8).map((b,i)=>`
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;${i?'color:var(--dim)':''}">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px">${b.date}</span>
+        <span style="font-weight:${i?400:600}">${b.w}kg</span>
+      </div>`).join('');
+  const prEl=document.getElementById('prBox');
+  if(!S.logs.length){prEl.innerHTML='<div class="empty">Log sets to see records.</div>';}
+  else{
+    const prs={};
+    S.logs.forEach(l=>{const rm=est1RM(l.weight,l.reps);if(!prs[l.exercise]||rm>prs[l.exercise])prs[l.exercise]={rm,w:l.weight,r:l.reps,date:l.date};});
+    prEl.innerHTML=Object.entries(prs).map(([ex,pr])=>{
+      const rec=getRec(ex);
+      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);">
+        <div style="font-size:12px;font-weight:500;flex:1;margin-right:8px;">${ex}</div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;">${pr.w}kg × ${pr.r} · ~${pr.rm}kg</div>
+          ${rec?`<div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--live)">Next: ${rec.weight}kg</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+  const td=today();
+  document.getElementById('mobList').innerHTML=MOBILITY_LIST.map((m,i)=>{
+    const k=td+'_'+i;const on=!!S.mob[k];
+    return `<div class="mob-row">
+      <div class="mob-cb${on?' on':''}" onclick="toggleMob('${k}',${i})" id="mc${i}"></div>
+      <div class="mob-nm">${m.nm}${m.star?' <span style="color:var(--live);font-size:10px">●</span>':''}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)">${m.sets}</div>
+    </div>`;
+  }).join('');
+}
+function toggleMob(k,i){S.mob[k]=!S.mob[k];persist();document.getElementById('mc'+i).classList.toggle('on');}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+ALL_EX.forEach(ex=>{
+  const o=document.createElement('option');o.value=o.textContent=ex;
+  document.getElementById('lEx').appendChild(o);
+});
+document.getElementById('lDate').value=today();
+renderTimeline();
+renderPhaseRail();
+updateBadges();
+renderLog();
+
+document.getElementById('modalBg').addEventListener('click',e=>{
+  if(e.target===document.getElementById('modalBg'))closeMod();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMod();});
+
+
+
+</script>
+</body>
+</html>
